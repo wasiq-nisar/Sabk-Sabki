@@ -61,5 +61,59 @@ public class DBHandler extends  SQLiteOpenHelper {
         onCreate(db);
     }
 
+    public void insertStudent(Student student) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_NAME, student.getName());
+        values.put(COLUMN_ROLLNO, student.getRollNo());
+        values.put(COLUMN_JOINING, student.getJoining());
+        db.insert(TABLE_NAME, null, values);
+        db.close();
+    }
 
+    public List<Student> selectAllStudents() {
+        List<Student> students = new ArrayList<>();
+        String sql = "SELECT * FROM " + TABLE_NAME;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(sql, null);
+        if (cursor.moveToFirst()) {
+            do {
+                students.add(new Student(cursor.getInt(0),
+                        cursor.getString(1),
+                        cursor.getString(2),cursor.getString(3)));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return students;
+    }
+
+    public void insertRecord(Record record) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_STD_ID, record.getStdId());
+        values.put(COLUMN_DATE, record.getDate());
+        values.put(COLUMN_SABAK, record.getSabak());
+        values.put(COLUMN_SABKI, record.getSabki());
+        values.put(COLUMN_MANZIL, record.getManzil());
+        db.insert(REC_TABLE_NAME, null, values);
+        db.close();
+    }
+
+    public ArrayList<Record> selectAllRecords(Integer id) {
+        ArrayList<Record> records = new ArrayList<>();
+        String sql = "SELECT * FROM " + REC_TABLE_NAME +" where std_id="+id;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(sql, null);
+        if (cursor.moveToFirst()) {
+            do {
+                records.add(new Record(cursor.getInt(0),cursor.getInt(1),
+                        cursor.getString(2), cursor.getInt(3),
+                        cursor.getInt(4),cursor.getInt(5)));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return records;
+    }
 }
