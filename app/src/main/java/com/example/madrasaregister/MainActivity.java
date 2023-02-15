@@ -22,11 +22,11 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     Button btn_add_std, btn_show_reocrds, btn_add_record;
-    DbHandler dbHandler;
+    DBHandler dbHandler;
     ImageView git_link;
     EditText rec_date, rec_sabak, rec_sabki, rec_manzil;
     Spinner stdSpinner;
-    ArrayAdapter<Student> spinnerAdapter;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
